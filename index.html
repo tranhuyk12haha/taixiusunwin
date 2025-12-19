@@ -2,266 +2,41 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Dự đoán SunWin VIP - Bản Quyền</title>
+  <title> SunWin VIP </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <link rel="icon" href="https://iqai.com/_next/image?url=/gifs/home/robotics.gif&w=828&q=75" type="image/png" />
   
   <style>
+    /* (Toàn bộ phần CSS giữ nguyên như code trước, bạn có thể copy từ câu trả lời trên) */
     * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: #0f2a33;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
-      overflow: hidden;
-    }
-
-    /* ===== AUTH SCREEN ===== */
-    #authScreen {
-      position: fixed;
-      inset: 0;
-      background: linear-gradient(135deg, #0f2a33, #1a3a45);
-      z-index: 10000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .auth-box {
-      background: rgba(10, 25, 30, 0.98);
-      border-radius: 16px;
-      padding: 40px 35px;
-      width: 100%;
-      max-width: 450px;
-      border: 1px solid rgba(79, 209, 197, 0.4);
-      box-shadow: 
-        0 0 40px rgba(79, 209, 197, 0.35),
-        inset 0 0 20px rgba(79, 209, 197, 0.15);
-    }
-
-    .logo img {
-      width: 75px;
-      border-radius: 50%;
-      filter: drop-shadow(0 0 12px #4fd1c5);
-      display: block;
-      margin: 0 auto 25px;
-    }
-
-    h1 {
-      color: #81e6d9;
-      text-align: center;
-      margin-bottom: 8px;
-      font-size: 22px;
-      text-shadow: 0 0 8px rgba(79,209,197,0.7);
-    }
-
-    .subtitle {
-      color: #a0aec0;
-      text-align: center;
-      font-size: 14px;
-      margin-bottom: 30px;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      color: #81e6d9;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      text-shadow: 0 0 4px rgba(79,209,197,0.5);
-    }
-
-    input {
-      width: 100%;
-      padding: 14px 16px;
-      background: rgba(15, 42, 51, 0.8);
-      border: 2px solid rgba(79, 209, 197, 0.4);
-      border-radius: 10px;
-      color: #e6fffa;
-      font-size: 16px;
-      outline: none;
-      transition: all 0.3s;
-    }
-
-    input:focus {
-      border-color: #4fd1c5;
-      box-shadow: 0 0 15px rgba(79, 209, 197, 0.5);
-    }
-
-    .btn-auth {
-      width: 100%;
-      padding: 15px;
-      background: linear-gradient(135deg, #4fd1c5, #38b2ac);
-      border: none;
-      border-radius: 10px;
-      color: #0f2a33;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: all 0.3s;
-      margin-top: 10px;
-    }
-
-    .btn-auth:hover {
-      background: linear-gradient(135deg, #38f9d7, #4fd1c5);
-      box-shadow: 0 0 20px rgba(79, 209, 197, 0.7);
-    }
-
-    .btn-auth:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .error-message {
-      color: #fc8181;
-      text-align: center;
-      font-size: 14px;
-      margin-top: 15px;
-      min-height: 20px;
-      text-shadow: 0 0 4px rgba(252, 129, 129, 0.5);
-    }
-
-    .loading {
-      color: #81e6d9;
-      text-align: center;
-      font-size: 14px;
-      margin: 15px 0;
-    }
-
-    /* ===== MAIN APP ===== */
-    #mainApp {
-      display: none;
-    }
-
-    iframe {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      z-index: 1;
-    }
-
-    #robotBox {
-      position: fixed;
-      top: 90px;
-      left: 20px;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: move;
-      user-select: none;
-      padding: 12px 16px;
-      border-radius: 20px;
-      background: linear-gradient(
-        135deg,
-        rgba(79,209,197,0.18),
-        rgba(56,178,172,0.12)
-      );
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(79,209,197,0.35);
-      box-shadow:
-        0 0 15px rgba(79,209,197,0.5),
-        0 0 35px rgba(79,209,197,0.25);
-    }
-
-    #robotIcon {
-      width: 70px;
-      filter:
-        drop-shadow(0 0 10px #4fd1c5)
-        drop-shadow(0 0 20px #38b2ac);
-    }
-
-    #predictionCard {
-      background: linear-gradient(
-        180deg,
-        rgba(10,25,30,0.95),
-        rgba(5,15,20,0.98)
-      );
-      border-radius: 14px;
-      padding: 12px 16px;
-      min-width: 200px;
-      border: 1px solid rgba(79,209,197,0.3);
-      box-shadow:
-        inset 0 0 12px rgba(79,209,197,0.15),
-        0 0 20px rgba(79,209,197,0.25);
-    }
-
-    #phien {
-      color: #81e6d9;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      text-shadow: 0 0 6px rgba(79,209,197,0.6);
-    }
-
-    #duDoan {
-      font-size: 18px;
-      font-weight: 800;
-      color: #e6fffa;
-      text-shadow:
-        0 0 8px rgba(79,209,197,0.9),
-        0 0 16px rgba(79,209,197,0.6);
-    }
-
-    #cauStatus {
-      color: #a0aec0;
-      font-size: 11px;
-      font-style: italic;
-      margin-top: 4px;
-    }
-
-    .du-doan-tai {
-      color: #38f9d7 !important;
-      text-shadow:
-        0 0 10px rgba(56,249,215,0.9),
-        0 0 20px rgba(56,249,215,0.6);
-    }
-
-    .du-doan-xiu {
-      color: #f6ad55 !important;
-      text-shadow:
-        0 0 10px rgba(246,173,85,0.9),
-        0 0 20px rgba(246,173,85,0.6);
-    }
-
-    #copyright {
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      color: #81e6d9;
-      font-size: 11px;
-      z-index: 9999;
-      opacity: 0.85;
-      user-select: none;
-    }
-
-    #logoutBtn {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 10000;
-      padding: 8px 16px;
-      background: rgba(10, 25, 30, 0.9);
-      border: 1px solid rgba(252, 129, 129, 0.4);
-      border-radius: 8px;
-      color: #fc8181;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    #logoutBtn:hover {
-      background: rgba(252, 129, 129, 0.1);
-      border-color: #fc8181;
-      box-shadow: 0 0 10px rgba(252, 129, 129, 0.4);
-    }
+    body { margin: 0; background: #0f2a33; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial; overflow: hidden; }
+    #authScreen { position: fixed; inset: 0; background: linear-gradient(135deg, #0f2a33, #1a3a45); z-index: 10000; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    .auth-box { background: rgba(10, 25, 30, 0.98); border-radius: 16px; padding: 40px 35px; width: 100%; max-width: 450px; border: 1px solid rgba(79, 209, 197, 0.4); box-shadow: 0 0 40px rgba(79, 209, 197, 0.35), inset 0 0 20px rgba(79, 209, 197, 0.15); }
+    .logo img { width: 75px; border-radius: 50%; filter: drop-shadow(0 0 12px #4fd1c5); display: block; margin: 0 auto 25px; }
+    h1 { color: #81e6d9; text-align: center; margin-bottom: 8px; font-size: 22px; text-shadow: 0 0 8px rgba(79,209,197,0.7); }
+    .subtitle { color: #a0aec0; text-align: center; font-size: 14px; margin-bottom: 30px; }
+    .input-group { margin-bottom: 20px; }
+    label { display: block; color: #81e6d9; font-size: 14px; font-weight: 600; margin-bottom: 8px; text-shadow: 0 0 4px rgba(79,209,197,0.5); }
+    input { width: 100%; padding: 14px 16px; background: rgba(15, 42, 51, 0.8); border: 2px solid rgba(79, 209, 197, 0.4); border-radius: 10px; color: #e6fffa; font-size: 16px; outline: none; transition: all 0.3s; }
+    input:focus { border-color: #4fd1c5; box-shadow: 0 0 15px rgba(79, 209, 197, 0.5); }
+    .btn-auth { width: 100%; padding: 15px; background: linear-gradient(135deg, #4fd1c5, #38b2ac); border: none; border-radius: 10px; color: #0f2a33; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 10px; }
+    .btn-auth:hover { background: linear-gradient(135deg, #38f9d7, #4fd1c5); box-shadow: 0 0 20px rgba(79, 209, 197, 0.7); }
+    .btn-auth:disabled { opacity: 0.6; cursor: not-allowed; }
+    .error-message { color: #fc8181; text-align: center; font-size: 14px; margin-top: 15px; min-height: 20px; text-shadow: 0 0 4px rgba(252, 129, 129, 0.5); }
+    .loading { color: #81e6d9; text-align: center; font-size: 14px; margin: 15px 0; }
+    #mainApp { display: none; }
+    iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: none; z-index: 1; }
+    #robotBox { position: fixed; top: 90px; left: 20px; z-index: 9999; display: flex; align-items: center; gap: 12px; cursor: move; user-select: none; padding: 12px 16px; border-radius: 20px; background: linear-gradient(135deg, rgba(79,209,197,0.18), rgba(56,178,172,0.12)); backdrop-filter: blur(10px); border: 1px solid rgba(79,209,197,0.35); box-shadow: 0 0 15px rgba(79,209,197,0.5), 0 0 35px rgba(79,209,197,0.25); }
+    #robotIcon { width: 70px; filter: drop-shadow(0 0 10px #4fd1c5) drop-shadow(0 0 20px #38b2ac); }
+    #predictionCard { background: linear-gradient(180deg, rgba(10,25,30,0.95), rgba(5,15,20,0.98)); border-radius: 14px; padding: 12px 16px; min-width: 200px; border: 1px solid rgba(79,209,197,0.3); box-shadow: inset 0 0 12px rgba(79,209,197,0.15), 0 0 20px rgba(79,209,197,0.25); }
+    #phien { color: #81e6d9; font-size: 13px; font-weight: 600; margin-bottom: 4px; text-shadow: 0 0 6px rgba(79,209,197,0.6); }
+    #duDoan { font-size: 18px; font-weight: 800; color: #e6fffa; text-shadow: 0 0 8px rgba(79,209,197,0.9), 0 0 16px rgba(79,209,197,0.6); }
+    #cauStatus { color: #a0aec0; font-size: 11px; font-style: italic; margin-top: 4px; }
+    .du-doan-tai { color: #38f9d7 !important; text-shadow: 0 0 10px rgba(56,249,215,0.9), 0 0 20px rgba(56,249,215,0.6); }
+    .du-doan-xiu { color: #f6ad55 !important; text-shadow: 0 0 10px rgba(246,173,85,0.9), 0 0 20px rgba(246,173,85,0.6); }
+    #copyright { position: fixed; bottom: 10px; right: 10px; color: #81e6d9; font-size: 11px; z-index: 9999; opacity: 0.85; user-select: none; }
+    #logoutBtn { position: fixed; top: 20px; right: 20px; z-index: 10000; padding: 8px 16px; background: rgba(10, 25, 30, 0.9); border: 1px solid rgba(252, 129, 129, 0.4); border-radius: 8px; color: #fc8181; font-size: 12px; cursor: pointer; transition: all 0.3s; }
+    #logoutBtn:hover { background: rgba(252, 129, 129, 0.1); border-color: #fc8181; box-shadow: 0 0 10px rgba(252, 129, 129, 0.4); }
   </style>
 </head>
 
@@ -275,20 +50,20 @@
       <h1>🔐 TRUY CẬP VIP</h1>
       <p class="subtitle">Nhập key bản quyền để sử dụng công cụ</p>
       
-      <div class="loading" id="loadingStatus">📡 Đang tải danh sách key...</div>
+      <div class="loading" id="loadingStatus">📡 Đang kết nối GitHub...</div>
       
       <div class="input-group">
         <label for="keyInput">KEY BẢN QUYỀN</label>
         <input type="password" id="keyInput" placeholder="Nhập key của bạn..." autocomplete="off" disabled />
       </div>
       
-      <button class="btn-auth" id="authBtn" onclick="checkKey()" disabled>ĐANG TẢI...</button>
+      <button class="btn-auth" id="authBtn" onclick="checkKey()" disabled>ĐANG TẢI DANH SÁCH KEY...</button>
       
       <div class="error-message" id="errorMsg"></div>
       
       <div style="margin-top: 25px; text-align: center; color: #718096; font-size: 12px;">
-        <div>📌 Key được tải từ file <strong style="color:#81e6d9">key.json</strong></div>
-        <div style="margin-top: 5px;">🔄 Tự động kiểm tra thời hạn</div>
+        <div>📌 Key được tải từ <strong style="color:#81e6d9">GitHub RAW</strong></div>
+        <div style="margin-top: 5px;">🔄 Luôn cập nhật danh sách mới nhất</div>
       </div>
     </div>
   </div>
@@ -318,13 +93,20 @@
     let validKeys = [];
     let keyDataLoaded = false;
 
-    // ===== TẢI DANH SÁCH KEY TỪ FILE JSON =====
-    async function loadKeysFromJSON() {
+    // ===== LINK RAW GITHUB CỦA BẠN =====
+    const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/tranhuyk12haha/taixiusunwin/main/key.json';
+
+    // ===== TẢI DANH SÁCH KEY TỪ GITHUB RAW =====
+    async function loadKeysFromGitHub() {
       try {
-        const response = await fetch('key.json');
+        // Thêm timestamp để tránh cache trình duyệt
+        const urlWithNoCache = `${GITHUB_RAW_URL}?t=${new Date().getTime()}`;
+        document.getElementById('loadingStatus').textContent = '📡 Đang tải key...';
+        
+        const response = await fetch(urlWithNoCache);
         
         if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: Không thể tải key.json`);
+          throw new Error(`Lỗi mạng: ${response.status}`);
         }
         
         const data = await response.json();
@@ -332,36 +114,42 @@
         if (data && Array.isArray(data.keys)) {
           validKeys = data.keys;
           keyDataLoaded = true;
-          document.getElementById('loadingStatus').textContent = '✅ Đã tải danh sách key thành công';
+          document.getElementById('loadingStatus').innerHTML = 
+            `✅ Đã tải <strong>${validKeys.length}</strong> key`;
           document.getElementById('keyInput').disabled = false;
           document.getElementById('authBtn').disabled = false;
-          document.getElementById('authBtn').textContent = 'XÁC THỰC & VÀO CÔNG CỤ';
+          document.getElementById('authBtn').textContent = 'XÁC THỰC & VÀO TOOL';
           
-          // Hiển thị số lượng key có sẵn
-          document.getElementById('loadingStatus').innerHTML += 
-            ` <small style="color:#f6ad55">(${validKeys.length} key)</small>`;
+          // Hiển thị một vài key mẫu (ẩn bớt ký tự)
+          if (validKeys.length > 0) {
+            const sampleKey = validKeys[0].key;
+            const maskedKey = sampleKey.substring(0, 3) + '***' + sampleKey.substring(sampleKey.length - 3);
+            document.getElementById('loadingStatus').innerHTML += 
+              `<br><small>Ví dụ: ${maskedKey} (hết hạn: ${validKeys[0].expires})</small>`;
+          }
         } else {
-          throw new Error('Cấu trúc key.json không hợp lệ');
+          throw new Error('Cấu trúc JSON không hợp lệ');
         }
       } catch (error) {
-        console.error('Lỗi tải key.json:', error);
+        console.error('Lỗi tải từ GitHub:', error);
         document.getElementById('loadingStatus').innerHTML = 
-          `❌ Lỗi tải key.json: ${error.message}`;
+          `❌ Lỗi tải từ GitHub: ${error.message}`;
         document.getElementById('errorMsg').innerHTML = 
-          'Vui lòng đảm bảo file key.json tồn tại và có cấu trúc đúng.<br>' +
-          '<small>File mẫu: {"keys":[{"key":"ABC123","expires":"2025-12-31","user":"Test"}]}</small>';
+          'Đang thử tải lại sau 5 giây...<br><small>Kiểm tra kết nối internet</small>';
         
-        // Fallback: Sử dụng key mặc định nếu không tải được file
-        setTimeout(() => {
-          validKeys = [
-            { key: "TEST123", expires: "2024-12-31", user: "FallbackUser" }
-          ];
-          keyDataLoaded = true;
-          document.getElementById('loadingStatus').textContent = '⚠️ Đang dùng key mặc định (fallback)';
-          document.getElementById('keyInput').disabled = false;
-          document.getElementById('authBtn').disabled = false;
-          document.getElementById('authBtn').textContent = 'XÁC THỰC (FALLBACK)';
-        }, 3000);
+        // Tự động thử lại sau 5 giây
+        setTimeout(loadKeysFromGitHub, 5000);
+        
+        // Fallback cứng nếu cần
+        validKeys = [
+          { key: "CHAMAY", expires: "2026-12-22", user: "KhachHangVIP" },
+          { key: "kENR6DEPTRAI1DAY", expires: "2025-12-20", user: "Tester24h" }
+        ];
+        keyDataLoaded = true;
+        document.getElementById('keyInput').disabled = false;
+        document.getElementById('authBtn').disabled = false;
+        document.getElementById('authBtn').textContent = 'XÁC THỰC (DỰ PHÒNG)';
+        document.getElementById('loadingStatus').innerHTML += '<br><small>⚠️ Đang dùng bản sao dự phòng</small>';
       }
     }
 
@@ -387,6 +175,14 @@
       
       if (!foundKey) {
         errorMsg.textContent = "❌ Key không tồn tại trong hệ thống!";
+        // Gợi ý key gần đúng
+        const similarKey = validKeys.find(k => 
+          k.key.toLowerCase().includes(input.toLowerCase()) || 
+          input.toLowerCase().includes(k.key.toLowerCase())
+        );
+        if (similarKey) {
+          errorMsg.textContent += ` Gợi ý: ${similarKey.key.substring(0, 3)}...`;
+        }
         return;
       }
       
@@ -408,6 +204,7 @@
       localStorage.setItem("authUser", foundKey.user || "Unknown");
       localStorage.setItem("authExpires", foundKey.expires);
       localStorage.setItem("authDaysLeft", daysLeft);
+      localStorage.setItem("lastKeyUpdate", new Date().toISOString());
       
       showMainApp();
     }
@@ -420,13 +217,16 @@
       // Hiển thị thông tin key
       const currentKey = localStorage.getItem("authKey");
       const daysLeft = localStorage.getItem("authDaysLeft");
-      document.getElementById("currentKey").textContent = 
-        `${currentKey} (còn ${daysLeft} ngày)`;
+      const lastUpdate = localStorage.getItem("lastKeyUpdate");
+      const updateTime = lastUpdate ? new Date(lastUpdate).toLocaleTimeString('vi-VN') : 'vừa xong';
+      
+      document.getElementById("currentKey").innerHTML = 
+        `${currentKey} (còn ${daysLeft} ngày) <small style="color:#a0aec0">| Cập nhật: ${updateTime}</small>`;
       
       runTool(); // Khởi chạy công cụ dự đoán
     }
 
-    // ===== KIỂM TRA ĐÃ ĐĂNG NHẬP CHƯA =====
+    // ===== KIỂM TRA ĐÃ ĐĂNG NHẬP CHƯA (VỚI KEY CŨ) =====
     async function checkAuth() {
       const savedKey = localStorage.getItem("authKey");
       const savedExpires = localStorage.getItem("authExpires");
@@ -435,10 +235,10 @@
         return;
       }
       
-      // Chờ tải key.json trước
-      await loadKeysFromJSON();
+      // LUÔN tải key mới từ GitHub trước khi kiểm tra
+      await loadKeysFromGitHub();
       
-      // Kiểm tra trong danh sách key hiện tại
+      // Kiểm tra trong danh sách key mới tải về
       const foundKey = validKeys.find(k => k.key === savedKey && k.expires === savedExpires);
       
       if (foundKey) {
@@ -447,12 +247,21 @@
         const expireDate = new Date(savedExpires);
         
         if (today <= expireDate) {
+          // Cập nhật lại thông tin ngày
+          const daysLeft = Math.ceil((expireDate - today) / (1000 * 60 * 60 * 24));
+          localStorage.setItem("authDaysLeft", daysLeft);
+          localStorage.setItem("lastKeyUpdate", new Date().toISOString());
+          
           showMainApp();
         } else {
           // Key hết hạn
           logout();
           document.getElementById("errorMsg").textContent = "⏰ Key đã hết hạn, vui lòng nhập key mới";
         }
+      } else {
+        // Key không còn trong danh sách mới
+        logout();
+        document.getElementById("errorMsg").textContent = "🔑 Key đã bị thu hồi hoặc thay đổi";
       }
     }
 
@@ -467,6 +276,18 @@
       document.getElementById("authScreen").style.display = "flex";
       document.getElementById("keyInput").value = "";
       document.getElementById("errorMsg").textContent = "";
+      document.getElementById("keyInput").focus();
+    }
+
+    // ===== LÀM MỚI DANH SÁCH KEY (nút ẩn) =====
+    function refreshKeys() {
+      document.getElementById("authBtn").disabled = true;
+      document.getElementById("authBtn").textContent = "ĐANG LÀM MỚI...";
+      document.getElementById("loadingStatus").textContent = "🔄 Đang tải danh sách key mới...";
+      document.getElementById("errorMsg").textContent = "";
+      keyDataLoaded = false;
+      
+      loadKeysFromGitHub();
     }
 
     // ===== CÔNG CỤ DỰ ĐOÁN =====
@@ -533,17 +354,31 @@
 
     // ===== KHỞI ĐỘNG =====
     window.onload = function() {
-      loadKeysFromJSON();
+      // Tải key từ GitHub ngay khi mở trang
+      loadKeysFromGitHub();
       
-      // Enter để xác thực
+      // Phím tắt: Enter để xác thực, Ctrl+R để refresh key
       document.getElementById("keyInput").addEventListener("keypress", function(e) {
         if (e.key === "Enter" && !this.disabled) checkKey();
       });
       
-      // Kiểm tra auth sau khi tải key
+      document.addEventListener("keydown", function(e) {
+        if (e.ctrlKey && e.key === "r") {
+          e.preventDefault();
+          refreshKeys();
+        }
+      });
+      
+      // Kiểm tra auth sau khi tải key xong
       setTimeout(() => {
         if (keyDataLoaded) checkAuth();
-      }, 500);
+      }, 800);
+      
+      // Tự động focus vào ô nhập key
+      setTimeout(() => {
+        const keyInput = document.getElementById("keyInput");
+        if (!keyInput.disabled) keyInput.focus();
+      }, 1000);
     };
   </script>
 </body>
