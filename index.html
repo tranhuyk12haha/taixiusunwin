@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dự đoán SunWin VIP - Bản Quyền</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <link rel="icon" href="https://iqai.com/_next/image?url=/gifs/home/robotics.gif&w=828&q=75" type="image/png" />
+  
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #0f2a33;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
+      overflow: hidden;
+    }
+
+    /* ===== AUTH SCREEN ===== */
+    #authScreen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #0f2a33, #1a3a45);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .auth-box {
+      background: rgba(10, 25, 30, 0.98);
+      border-radius: 16px;
+      padding: 40px 35px;
+      width: 100%;
+      max-width: 450px;
+      border: 1px solid rgba(79, 209, 197, 0.4);
+      box-shadow: 
+        0 0 40px rgba(79, 209, 197, 0.35),
+        inset 0 0 20px rgba(79, 209, 197, 0.15);
+    }
+
+    .logo img {
+      width: 75px;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 12px #4fd1c5);
+      display: block;
+      margin: 0 auto 25px;
+    }
+
+    h1 {
+      color: #81e6d9;
+      text-align: center;
+      margin-bottom: 8px;
+      font-size: 22px;
+      text-shadow: 0 0 8px rgba(79,209,197,0.7);
+    }
+
+    .subtitle {
+      color: #a0aec0;
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      color: #81e6d9;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-shadow: 0 0 4px rgba(79,209,197,0.5);
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(15, 42, 51, 0.8);
+      border: 2px solid rgba(79, 209, 197, 0.4);
+      border-radius: 10px;
+      color: #e6fffa;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      border-color: #4fd1c5;
+      box-shadow: 0 0 15px rgba(79, 209, 197, 0.5);
+    }
+
+    .btn-auth {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #4fd1c5, #38b2ac);
+      border: none;
+      border-radius: 10px;
+      color: #0f2a33;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .btn-auth:hover {
+      background: linear-gradient(135deg, #38f9d7, #4fd1c5);
+      box-shadow: 0 0 20px rgba(79, 209, 197, 0.7);
+    }
+
+    .btn-auth:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      color: #fc8181;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 15px;
+      min-height: 20px;
+      text-shadow: 0 0 4px rgba(252, 129, 129, 0.5);
+    }
+
+    .loading {
+      color: #81e6d9;
+      text-align: center;
+      font-size: 14px;
+      margin: 15px 0;
+    }
+
+    /* ===== MAIN APP ===== */
+    #mainApp {
+      display: none;
+    }
+
+    iframe {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      z-index: 1;
+    }
+
+    #robotBox {
+      position: fixed;
+      top: 90px;
+      left: 20px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: move;
+      user-select: none;
+      padding: 12px 16px;
+      border-radius: 20px;
+      background: linear-gradient(
+        135deg,
+        rgba(79,209,197,0.18),
+        rgba(56,178,172,0.12)
+      );
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(79,209,197,0.35);
+      box-shadow:
+        0 0 15px rgba(79,209,197,0.5),
+        0 0 35px rgba(79,209,197,0.25);
+    }
+
+    #robotIcon {
+      width: 70px;
+      filter:
+        drop-shadow(0 0 10px #4fd1c5)
+        drop-shadow(0 0 20px #38b2ac);
+    }
+
+    #predictionCard {
+      background: linear-gradient(
+        180deg,
+        rgba(10,25,30,0.95),
+        rgba(5,15,20,0.98)
+      );
+      border-radius: 14px;
+      padding: 12px 16px;
+      min-width: 200px;
+      border: 1px solid rgba(79,209,197,0.3);
+      box-shadow:
+        inset 0 0 12px rgba(79,209,197,0.15),
+        0 0 20px rgba(79,209,197,0.25);
+    }
+
+    #phien {
+      color: #81e6d9;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      text-shadow: 0 0 6px rgba(79,209,197,0.6);
+    }
+
+    #duDoan {
+      font-size: 18px;
+      font-weight: 800;
+      color: #e6fffa;
+      text-shadow:
+        0 0 8px rgba(79,209,197,0.9),
+        0 0 16px rgba(79,209,197,0.6);
+    }
+
+    #cauStatus {
+      color: #a0aec0;
+      font-size: 11px;
+      font-style: italic;
+      margin-top: 4px;
+    }
+
+    .du-doan-tai {
+      color: #38f9d7 !important;
+      text-shadow:
+        0 0 10px rgba(56,249,215,0.9),
+        0 0 20px rgba(56,249,215,0.6);
+    }
+
+    .du-doan-xiu {
+      color: #f6ad55 !important;
+      text-shadow:
+        0 0 10px rgba(246,173,85,0.9),
+        0 0 20px rgba(246,173,85,0.6);
+    }
+
+    #copyright {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      color: #81e6d9;
+      font-size: 11px;
+      z-index: 9999;
+      opacity: 0.85;
+      user-select: none;
+    }
+
+    #logoutBtn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10000;
+      padding: 8px 16px;
+      background: rgba(10, 25, 30, 0.9);
+      border: 1px solid rgba(252, 129, 129, 0.4);
+      border-radius: 8px;
+      color: #fc8181;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    #logoutBtn:hover {
+      background: rgba(252, 129, 129, 0.1);
+      border-color: #fc8181;
+      box-shadow: 0 0 10px rgba(252, 129, 129, 0.4);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- AUTH SCREEN -->
+  <div id="authScreen">
+    <div class="auth-box">
+      <div class="logo">
+        <img src="https://iqai.com/_next/image?url=/gifs/home/robotics.gif&w=828&q=75" alt="AI Robot" />
+      </div>
+      <h1>🔐 TRUY CẬP VIP</h1>
+      <p class="subtitle">Nhập key bản quyền để sử dụng công cụ</p>
+      
+      <div class="loading" id="loadingStatus">📡 Đang tải danh sách key...</div>
+      
+      <div class="input-group">
+        <label for="keyInput">KEY BẢN QUYỀN</label>
+        <input type="password" id="keyInput" placeholder="Nhập key của bạn..." autocomplete="off" disabled />
+      </div>
+      
+      <button class="btn-auth" id="authBtn" onclick="checkKey()" disabled>ĐANG TẢI...</button>
+      
+      <div class="error-message" id="errorMsg"></div>
+      
+      <div style="margin-top: 25px; text-align: center; color: #718096; font-size: 12px;">
+        <div>📌 Key được tải từ file <strong style="color:#81e6d9">key.json</strong></div>
+        <div style="margin-top: 5px;">🔄 Tự động kiểm tra thời hạn</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="mainApp">
+    <iframe src="https://web.sunwin.moi/?affId=Sunwin" allowfullscreen></iframe>
+    
+    <div id="robotBox">
+      <img id="robotIcon" src="https://iqai.com/_next/image?url=/gifs/home/robotics.gif&w=828&q=75" />
+      <div id="predictionCard">
+        <div id="phien">#...</div>
+        <div id="duDoan">Đang khởi động AI...</div>
+        <div id="cauStatus">Khởi tạo mô hình</div>
+      </div>
+    </div>
+    
+    <audio id="soundTai" src="https://assets.mixkit.co/sfx/preview/mixkit-game-ball-tap-2073.mp3"></audio>
+    <audio id="soundXiu" src="https://assets.mixkit.co/sfx/preview/mixkit-game-click-1114.mp3"></audio>
+    
+    <button id="logoutBtn" onclick="logout()">ĐĂNG XUẤT</button>
+    <div id="copyright">© Tool by KhoiNguyen X KenR6 | Key: <span id="currentKey"></span></div>
+  </div>
+
+  <script>
+    // ===== BIẾN TOÀN CỤC =====
+    let validKeys = [];
+    let keyDataLoaded = false;
+
+    // ===== TẢI DANH SÁCH KEY TỪ FILE JSON =====
+    async function loadKeysFromJSON() {
+      try {
+        const response = await fetch('key.json');
+        
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: Không thể tải key.json`);
+        }
+        
+        const data = await response.json();
+        
+        if (data && Array.isArray(data.keys)) {
+          validKeys = data.keys;
+          keyDataLoaded = true;
+          document.getElementById('loadingStatus').textContent = '✅ Đã tải danh sách key thành công';
+          document.getElementById('keyInput').disabled = false;
+          document.getElementById('authBtn').disabled = false;
+          document.getElementById('authBtn').textContent = 'XÁC THỰC & VÀO CÔNG CỤ';
+          
+          // Hiển thị số lượng key có sẵn
+          document.getElementById('loadingStatus').innerHTML += 
+            ` <small style="color:#f6ad55">(${validKeys.length} key)</small>`;
+        } else {
+          throw new Error('Cấu trúc key.json không hợp lệ');
+        }
+      } catch (error) {
+        console.error('Lỗi tải key.json:', error);
+        document.getElementById('loadingStatus').innerHTML = 
+          `❌ Lỗi tải key.json: ${error.message}`;
+        document.getElementById('errorMsg').innerHTML = 
+          'Vui lòng đảm bảo file key.json tồn tại và có cấu trúc đúng.<br>' +
+          '<small>File mẫu: {"keys":[{"key":"ABC123","expires":"2025-12-31","user":"Test"}]}</small>';
+        
+        // Fallback: Sử dụng key mặc định nếu không tải được file
+        setTimeout(() => {
+          validKeys = [
+            { key: "TEST123", expires: "2024-12-31", user: "FallbackUser" }
+          ];
+          keyDataLoaded = true;
+          document.getElementById('loadingStatus').textContent = '⚠️ Đang dùng key mặc định (fallback)';
+          document.getElementById('keyInput').disabled = false;
+          document.getElementById('authBtn').disabled = false;
+          document.getElementById('authBtn').textContent = 'XÁC THỰC (FALLBACK)';
+        }, 3000);
+      }
+    }
+
+    // ===== KIỂM TRA KEY =====
+    function checkKey() {
+      if (!keyDataLoaded) {
+        document.getElementById("errorMsg").textContent = "⏳ Vui lòng đợi tải danh sách key...";
+        return;
+      }
+      
+      const input = document.getElementById("keyInput").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
+      
+      errorMsg.textContent = "";
+      
+      if (!input) {
+        errorMsg.textContent = "⚠️ Vui lòng nhập key!";
+        return;
+      }
+      
+      // Tìm key trong danh sách
+      const foundKey = validKeys.find(k => k.key === input);
+      
+      if (!foundKey) {
+        errorMsg.textContent = "❌ Key không tồn tại trong hệ thống!";
+        return;
+      }
+      
+      // Kiểm tra ngày hết hạn
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const expireDate = new Date(foundKey.expires);
+      
+      if (today > expireDate) {
+        errorMsg.textContent = `⏰ Key đã hết hạn từ ${foundKey.expires}!`;
+        return;
+      }
+      
+      // Tính số ngày còn lại
+      const daysLeft = Math.ceil((expireDate - today) / (1000 * 60 * 60 * 24));
+      
+      // Lưu thông tin
+      localStorage.setItem("authKey", input);
+      localStorage.setItem("authUser", foundKey.user || "Unknown");
+      localStorage.setItem("authExpires", foundKey.expires);
+      localStorage.setItem("authDaysLeft", daysLeft);
+      
+      showMainApp();
+    }
+
+    // ===== HIỂN THỊ APP CHÍNH =====
+    function showMainApp() {
+      document.getElementById("authScreen").style.display = "none";
+      document.getElementById("mainApp").style.display = "block";
+      
+      // Hiển thị thông tin key
+      const currentKey = localStorage.getItem("authKey");
+      const daysLeft = localStorage.getItem("authDaysLeft");
+      document.getElementById("currentKey").textContent = 
+        `${currentKey} (còn ${daysLeft} ngày)`;
+      
+      runTool(); // Khởi chạy công cụ dự đoán
+    }
+
+    // ===== KIỂM TRA ĐÃ ĐĂNG NHẬP CHƯA =====
+    async function checkAuth() {
+      const savedKey = localStorage.getItem("authKey");
+      const savedExpires = localStorage.getItem("authExpires");
+      
+      if (!savedKey || !savedExpires) {
+        return;
+      }
+      
+      // Chờ tải key.json trước
+      await loadKeysFromJSON();
+      
+      // Kiểm tra trong danh sách key hiện tại
+      const foundKey = validKeys.find(k => k.key === savedKey && k.expires === savedExpires);
+      
+      if (foundKey) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const expireDate = new Date(savedExpires);
+        
+        if (today <= expireDate) {
+          showMainApp();
+        } else {
+          // Key hết hạn
+          logout();
+          document.getElementById("errorMsg").textContent = "⏰ Key đã hết hạn, vui lòng nhập key mới";
+        }
+      }
+    }
+
+    // ===== ĐĂNG XUẤT =====
+    function logout() {
+      localStorage.removeItem("authKey");
+      localStorage.removeItem("authUser");
+      localStorage.removeItem("authExpires");
+      localStorage.removeItem("authDaysLeft");
+      
+      document.getElementById("mainApp").style.display = "none";
+      document.getElementById("authScreen").style.display = "flex";
+      document.getElementById("keyInput").value = "";
+      document.getElementById("errorMsg").textContent = "";
+    }
+
+    // ===== CÔNG CỤ DỰ ĐOÁN =====
+    const apiUrl = 'https://sunlaymaynk.hacksieucap.pro/sunlon';
+    let previousPhien = null;
+
+    function runTool() {
+      fetchData();
+      setInterval(fetchData, 5000);
+
+      const box = document.getElementById("robotBox");
+      let drag = false, ox = 0, oy = 0;
+
+      box.onmousedown = e => {
+        drag = true;
+        ox = e.clientX - box.offsetLeft;
+        oy = e.clientY - box.offsetTop;
+      };
+
+      document.onmousemove = e => {
+        if (!drag) return;
+        box.style.left = e.clientX - ox + "px";
+        box.style.top = e.clientY - oy + "px";
+      };
+
+      document.onmouseup = () => drag = false;
+    }
+
+    async function fetchData() {
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (data.phien !== previousPhien) {
+          previousPhien = data.phien;
+
+          document.getElementById("phien").innerText = "Phiên #" + (parseInt(data.phien) + 1);
+          document.getElementById("duDoan").innerText = "Đang phân tích...";
+          document.getElementById("cauStatus").innerText = "AI đang xử lý dữ liệu";
+
+          setTimeout(() => updateDuDoan(data.du_doan), 8000);
+        }
+      } catch {
+        document.getElementById("duDoan").innerText = "Lỗi API";
+      }
+    }
+
+    function updateDuDoan(kq) {
+      const el = document.getElementById("duDoan");
+      el.classList.remove("du-doan-tai", "du-doan-xiu");
+
+      if (kq && kq.toLowerCase().includes("tài")) {
+        el.innerText = "Dự đoán: Tài";
+        el.classList.add("du-doan-tai");
+        document.getElementById("soundTai").play().catch(()=>{});
+      } else {
+        el.innerText = "Dự đoán: Xỉu";
+        el.classList.add("du-doan-xiu");
+        document.getElementById("soundXiu").play().catch(()=>{});
+      }
+
+      document.getElementById("cauStatus").innerText = "AI xác suất cao";
+    }
+
+    // ===== KHỞI ĐỘNG =====
+    window.onload = function() {
+      loadKeysFromJSON();
+      
+      // Enter để xác thực
+      document.getElementById("keyInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter" && !this.disabled) checkKey();
+      });
+      
+      // Kiểm tra auth sau khi tải key
+      setTimeout(() => {
+        if (keyDataLoaded) checkAuth();
+      }, 500);
+    };
+  </script>
+</body>
+</html>
