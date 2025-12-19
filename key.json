@@ -1,0 +1,22 @@
+{
+  "keys": [
+    {
+      "key": "Admin1",
+      "expires": "2025-12-22",
+      "user": "KhachHangVIP",
+      "note": "Key VIP 1 năm"
+    },
+    {
+      "key": "test",
+      "expires": "2024-12-16",
+      "user": "Tester24h",
+      "note": "Key test 24 giờ"
+    },
+    {
+      "key": "PRO789",
+      "expires": "2025-06-30",
+      "user": "ProUser",
+      "note": "Key bản pro"
+    }
+  ]
+}
